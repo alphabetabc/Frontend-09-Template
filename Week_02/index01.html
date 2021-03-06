@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./index.css" />
+        <style>
+            #container {
+                width: 500px;
+                overflow: hidden;
+                padding-top: 20px;
+                font-size: 0;
+            }
+            .cell {
+                display: inline-block;
+                width: 5px;
+                height: 5px;
+                background-color: gray;
+                border: 1px solid #000;
+                vertical-align: middle;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                生成地图
+            </side>
+            <section class="right-part">
+                <div class="operators">
+                    <button id="save-btn">save</button>
+                    <button id="clear-btn">clear</button>
+                </div>
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        const container = document.getElementById('container');
+        const saveBtn = document.getElementById('save-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const map = JSON.parse(localStorage.getItem('map') || '[]') || new Array(10000).fill(0);
+
+        saveBtn.onclick = () => {
+            localStorage.setItem('map', JSON.stringify(map));
+        };
+        clearBtn.onclick = () => {
+            localStorage.removeItem('map');
+        };
+
+        function _rendermap() {
+            let mousedown = false;
+            let clear = false;
+
+            const fragment = document.createDocumentFragment();
+            for (let y = 0; y < 100; y++) {
+                for (let x = 0; x < 100; x++) {
+                    let cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    if (map[100 * y + x] === 1) {
+                        cell.style.backgroundColor = 'black';
+                    }
+                    fragment.appendChild(cell);
+
+                    cell.addEventListener('mousemove', () => {
+                        if (mousedown) {
+                            if (clear) {
+                                cell.style.backgroundColor = '';
+                                map[100 * y + x] = 0;
+                            } else {
+                                cell.style.backgroundColor = 'black';
+                                map[100 * y + x] = 1;
+                            }
+                        }
+                    });
+                }
+            }
+            container.appendChild(fragment);
+
+            document.addEventListener('mousedown', (e) => {
+                mousedown = true;
+                clear = e.button === 2;
+            });
+
+            document.addEventListener('mouseup', () => {
+                mousedown = false;
+            });
+            document.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+            });
+        }
+    </script>
+</html>

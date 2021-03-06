@@ -1,0 +1,226 @@
+# 前端技术
+## HTML
+### HTML as 计算机语言
+- 语法
+- 词法
+### HTML as SGML
+- DTD
+- Entity
+      - ....
+### HTML as XML
+- Namespace
+  - svg
+  - mathml
+  - aria
+- Tag
+  - 根元素 html
+    - 文档元数据 
+      - head
+      - title
+      - base
+      - link
+      - meta
+      - style
+    - 分区根元素 body
+      - 内容分区
+        - address
+        - article
+        - aside
+        - header
+        - footer
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+        - hgroup
+        - main
+        - nav
+        - section
+      - 文本内容
+        - blockquote
+        - dd
+        - div
+        - dl
+        - dt
+        - figcaption
+        - figure
+        - hr
+        - ul
+        - li
+        - ol
+        - p
+        - pre
+      - 内联文本语义
+        - a
+        - abbr
+        - b
+        - bdi
+        - bdo
+        - br
+        - cite
+        - code
+        - data
+        - dfn
+        - em
+        - i
+        - kbd
+        - mark
+        - q
+        - rb
+        - rt
+        - rtc
+        - ruby
+        - s
+        - samp
+        - small
+        - span
+        - strong
+        - sub
+        - sup
+        - time
+        - u
+        - var
+        - wbr
+      - 图片和多媒体
+        - area
+        - audio
+        - img
+        - map
+        - track
+        - video
+      - 内嵌内容
+        - embed
+        - iframe
+        - object
+        - param
+        - picture
+        - portal
+        - source
+      - 脚本
+        - noscript
+        - script  
+      - 画布
+        - canvas
+        - svg
+      - 编辑标识
+        - del
+        - ins
+      - 表格内容
+        - caption
+        - col
+        - colgroup
+        - table
+        - tbody
+        - td
+        - tfoot
+        - th
+        - thead
+        - tr
+      - 表单
+        - button
+        - datalist
+        - fieldset
+        - form
+        - input
+        - label
+        - legend
+        - meter
+        - optgroup
+        - option
+        - output
+        - progress
+        - select
+        - textarea
+      - 交互元素
+        - details
+        - dialog
+        - menu
+        - summary
+      - web组件
+        - template
+        - content
+        - shadow
+        - slot
+                            
+## JavaScript
+### Grammar
+- Lex
+	- WhiteSpace
+	- LineTerminator 
+	- Comment
+	- Token
+		- Identifier
+		- Keywords
+		- Punctuator
+		- NumericLiteral
+		- StringLiteral
+		- RegularExpressionLiteral
+		- Template
+
+- Syntax
+	- Atom
+	- Expression
+	- Structure
+	- Script & Module
+
+### 语义(Semantics)
+
+### 运行时（Runtime）
+
+- Type
+
+	- Number
+	- String
+	- Boolean
+	- Null
+	- Undefined
+	- Object
+	- Symbol
+	- 内部类型
+		- Reference
+		- Completion Record
+		- .....
+
+- 执行过程
+	- Job
+	- Script/Module
+	- Promise
+	- Function
+	- Statement
+	- Expression
+	- Literal
+	- Identifier
+
+## CSS
+### 语法/词法
+### @规则
+### 普通规则
+- 选择器
+	- 简单选择器
+		- .cls
+		- #id
+		- tagname
+		- *
+		- [attr=v]
+	- 复合选择器
+	- 复杂选择器
+	- 选择器列表
+- Property
+- Value
+### 机制
+- 排版
+- 伪元素
+- 动画
+- 优先级
+## API
+### Browser
+- DOM
+	- Nodes
+	- Ranges
+	- Events
+- Subtopic 2
+### Node
+### Electron
+### 小程序
