@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./index.css" />
+        <style>
+            #container {
+                width: 300px;
+                height: 300px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .cell {
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+                text-align: center;
+                border: 1px solid #000;
+                font-size: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                TicTacToe
+                <p>实现一个TicTacToe游戏</p>
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        const container = document.getElementById('container');
+        const pattern = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+        show();
+        function show() {
+            const fragment = document.createDocumentFragment();
+            for (let y = 0; y < 3; y++) {
+                for (let x = 0; x < 3; x++) {
+                    const index = 3 * y + x;
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.setAttribute('data-index', index);
+                    cell.innerHTML = pattern[index] === 2 ? '❌' : pattern[index] === 1 ? '⭕' : '';
+                    fragment.appendChild(cell);
+                    cell.addEventListener('click', move);
+                }
+            }
+            container.appendChild(fragment);
+        }
+
+        let color = 1;
+        function move(e) {
+            const cell = e.target;
+            const index = cell.getAttribute('data-index');
+            pattern[index] = color;
+            if (check()) {
+                alert('win');
+            }
+            color = 3 - color;
+            cell.innerHTML = pattern[index] === 2 ? '❌' : pattern[index] === 1 ? '⭕' : '';
+        }
+
+        function check() {}
+    </script>
+</html>

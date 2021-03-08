@@ -1,0 +1,14 @@
+{
+    "name": "fe-geek-template",
+    "version": "1.0.0",
+    "description": "fe",
+    "directories": {
+        "doc": "doc"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
