@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style></style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                上一节 是 LL 词法分析
+                <br />
+                <br />
+                <b> LL 语法分析</b>
+            </side>
+            <section class="right-part">
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        /*
+            Number [0-9\.]+
+            Whitespace  [ \t]+
+            LineTerminator  [\r\n]+  EOF
+
+            加减乘除
+        */
+        const regexp = /([0-9\.]+)|([ \t]+)|([\r\n]+)|(\*)|(\/)|(\+)|(\-)/g;
+        const dictionary = ['Number', 'Whitespace', 'LineTerminator', '*', '/', '+', '-'];
+        // 词法分析
+        function* tokenize(source) {
+            let result = null;
+            let lastIndex = 0;
+            while (true) {
+                lastIndex = regexp.lastIndex;
+                result = regexp.exec(source);
+                // 匹配结束
+                if (!result) break;
+                // 匹配的结果中包含了不认识的字符
+                if (regexp.lastIndex - lastIndex > result[0].length) break;
+
+                const token = {
+                    type: null,
+                    value: null,
+                };
+
+                for (let i = 1; i <= dictionary.length; i++) {
+                    if (result[i]) {
+                        token.type = dictionary[i - 1];
+                    }
+                }
+                token.value = result[0];
+                yield token;
+            }
+
+            yield {
+                type: 'EOF',
+            };
+        }
+
+        const source = [];
+
+        for (let token of tokenize(' 10 * 25 / 2')) {
+            if (['Whitespace', 'LineTerminator'].includes(token.type)) continue;
+            source.push(token);
+        }
+
+        console.log('log----处理前', JSON.parse(JSON.stringify(source)));
+        MultiplicativeExpression(source);
+        console.log('log----处理之后', source);
+
+        function Expression(tokens) {}
+        // 加法
+        function AdditiveExpression(source) {}
+        // 乘法
+        function MultiplicativeExpression(source) {
+            if (source[0]?.type === 'Number') {
+                const node = {
+                    type: 'MultiplicativeExpression',
+                    children: [source[0]],
+                };
+                source[0] = node;
+                return MultiplicativeExpression(source);
+            }
+
+            if (source[0]?.type === 'MultiplicativeExpression' && source[1]?.type === '*') {
+                const node = {
+                    type: 'MultiplicativeExpression',
+                    operator: '*',
+                    children: [],
+                };
+                node.children.push(source.shift()); // 上一步创建的表达式
+                node.children.push(source.shift()); // 操作符
+                node.children.push(source.shift()); // 操作符后面的数字
+                source.unshift(node); // 操作符表达式
+                return MultiplicativeExpression(source);
+            }
+
+            if (source[0]?.type === 'MultiplicativeExpression' && source[1]?.type === '/') {
+                const node = {
+                    type: 'MultiplicativeExpression',
+                    operator: '/',
+                    children: [],
+                };
+                node.children.push(source.shift());
+                node.children.push(source.shift());
+                node.children.push(source.shift());
+                source.unshift(node);
+                return MultiplicativeExpression(source);
+            }
+
+            if (source[0]?.type === 'MultiplicativeExpression') {
+                return source[0];
+            }
+
+            console.warn('走到这一步了:', source);
+            //return MultiplicativeExpression(source);
+            return source;
+        }
+    </script>
+</html>

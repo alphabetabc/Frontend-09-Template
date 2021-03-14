@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style></style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                LL 词法分析
+            </side>
+            <section class="right-part">
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        /*
+            Number [0-9\.]+
+            Whitespace  [ \t]+
+            LineTerminator  [\r\n]+  EOF
+
+            加减乘除
+        */
+        const regexp = /([0-9\.]+)|([ \t]+)|([\r\n]+)|(\*)|(\/)|(\+)|(\-)/g;
+        const dictionary = ['Number', 'Whitespace', 'LineTerminator', '*', '/', '+', '-'];
+
+        function* tokenize(source) {
+            let result = null;
+            let lastIndex = 0;
+            while (true) {
+                lastIndex = regexp.lastIndex;
+                result = regexp.exec(source);
+                // 匹配结束
+                if (!result) break;
+                // 匹配的结果中包含了不认识的字符
+                if (regexp.lastIndex - lastIndex > result[0].length) break;
+
+                const token = {
+                    type: null,
+                    value: null,
+                };
+
+                for (let i = 1; i <= dictionary.length; i++) {
+                    if (result[i]) {
+                        token.type = dictionary[i - 1];
+                    }
+                }
+                token.value = result[0];
+                yield token;
+            }
+
+            yield {
+                type: 'EOF',
+            };
+        }
+
+        const tokenGen = tokenize('1024 + 10 * 25');
+        const tokenGen2 = tokenize('1024 + 10 * 25');
+
+        for (let token of tokenGen) {
+            console.log(token);
+        }
+    </script>
+</html>
