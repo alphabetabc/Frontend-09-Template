@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style>
+            table td {
+                width: 20px;
+                text-align: center;
+                border: 1px solid #000;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                KMP 有问题
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container">
+                    <table>
+                        <tr id="parttern"></tr>
+                        <tr id="parttern-table"></tr>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </body>
+    <script type="module">
+        const partternTr = document.getElementById('parttern');
+        const partternTableTr = document.getElementById('parttern-table');
+
+        function kmp(source, pattern) {
+            // table
+            const patternTable = new Array(pattern.length).fill(0);
+            {
+                // i:自重复的次数, j:已重复的次数
+                let i = 1,
+                    j = 0;
+
+                while (i < pattern.length) {
+                    console.log(1);
+                    //
+                    if (pattern[i] === pattern[j]) {
+                        ++j, ++i;
+                        patternTable[i] = j;
+                    } else {
+                        if (j > 0) {
+                            j = patternTable[j];
+                        } else {
+                            ++i;
+                        }
+                    }
+                }
+                partternTr.innerHTML = pattern.split('').reduce((res, item) => {
+                    res += `<td>${item}</td>`;
+                    return res;
+                }, '');
+                console.log(patternTable.length, pattern.length);
+                partternTableTr.innerHTML = patternTable.reduce((res, item) => {
+                    res += `<td>${item}</td>`;
+                    return res;
+                }, '');
+
+                console.log(patternTable);
+            }
+            // {
+            //     // i:source的位置, j: pattern的位置
+            //     let i = 1,
+            //         j = 0;
+            //     while (i < source.length) {
+            //         if (pattern[j] === source[i]) {
+            //             ++i;
+            //             ++j;
+            //         } else {
+            //             if (j > 0) {
+            //                 j = table[j];
+            //             } else {
+            //                 ++i;
+            //             }
+            //         }
+
+            //         if (j === pattern.length) {
+            //             return true;
+            //         }
+            //     }
+            //     return false;
+            // }
+            // match
+        }
+
+        console.log(kmp('', 'abcabcd'));
+        // console.log(kmp('', 'abcdabce'));
+    </script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            #dragable {
+                width: 100px;
+                height: 100px;
+                border: 1px solid #000;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dragable"></div>
+    </body>
+    <script>
+        const dragableEl = document.getElementById('dragable');
+        let baseX = 0,
+            baseY = 0;
+        dragableEl.addEventListener('mousedown', (e) => {
+            const startX = e.clientX,
+                startY = e.clientY;
+
+            const up = (ev) => {
+                baseX = baseX + ev.clientX - startX;
+                baseY = baseY + ev.clientY - startY;
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('mouseup', up);
+            };
+            const move = (ev) => {
+                const x = baseX + ev.clientX - startX;
+                const y = baseY + ev.clientY - startY;
+                dragableEl.style.transform = `translate(${x}px,${y}px)`;
+            };
+
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', up);
+        });
+    </script>
+</html>

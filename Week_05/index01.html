@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style></style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                Proxy基本用法
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        const obj = { a: 1, b: 1 };
+        const proxy = new Proxy(obj, {
+            set(target, prop, value, receiver) {
+                console.log('log----set');
+            },
+            get(target, prop, receiver) {
+                console.log('log----get');
+            },
+        });
+    </script>
+</html>

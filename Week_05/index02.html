@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style></style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                Proxy reactive
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        // reactive
+        const callbacks = [];
+        let useReactives = [];
+        const obj = { a: 1, b: 1 };
+
+        const proxy = reactive(obj);
+        effect(() => {
+            console.log('effect');
+        });
+
+        function effect(callback) {
+            callbacks.push(callback);
+        }
+
+        function reactive(obj) {
+            return new Proxy(obj, {
+                set(target, prop, value, receiver) {
+                    console.log('log----set', target, prop, value, receiver);
+                    for (let callback of callbacks) {
+                        callback();
+                    }
+                    return Reflect.set(target, prop, value, receiver);
+                },
+                get(target, prop, receiver) {
+                    console.log('log----get', target, prop, receiver);
+                    return Reflect.get(target, prop, receiver);
+                },
+            });
+        }
+    </script>
+</html>

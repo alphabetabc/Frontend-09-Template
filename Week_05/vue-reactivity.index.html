@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        live server
+    </body>
+    <script type="module">
+        import { ref, effect } from './vue-reactivity.esm-browser.js';
+        const count = ref(0);
+        console.log(count);
+        effect(() => console.log(count.value));
+        count.value = 2;
+    </script>
+</html>

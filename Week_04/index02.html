@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style>
+            table td {
+                width: 20px;
+                text-align: center;
+                border: 1px solid #000;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                KMP
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container">
+                    <table>
+                        <tr id="parttern"></tr>
+                        <tr id="parttern-table"></tr>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </body>
+    <script type="module">
+        /* 
+            pattern: abcdabce
+            source:  abcdabcdabcex
+        */
+        import './kmp.js';
+    </script>
+</html>

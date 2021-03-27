@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style></style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                Proxy reactive
+                <br />
+                dom的双向绑定
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container">
+                    <input type="range" min="0" max="255" id="r" />
+                    <input type="range" min="0" max="255" id="g" />
+                    <input type="range" min="0" max="255" id="b" />
+                </div>
+            </section>
+        </main>
+    </body>
+    <script>
+        // reactive
+        const callbacks = new Map();
+        const reactivities = new Map();
+        let useReactivities = [];
+        function effect(callback) {
+            // callbacks.push(callback);
+            useReactivities = [];
+            // 立即执行, 从set方法上获取到了执行的依赖 666
+            // 并没有显式的传递依赖关系
+            callback();
+            console.log(useReactivities);
+            // 保存注册的对象
+            // map ---> 某一个对象的某一个key的callback 666
+            for (let reactivity of useReactivities) {
+                const [obj, key] = reactivity;
+                if (!callbacks.has(obj)) {
+                    callbacks.set(obj, new Map());
+                }
+
+                if (!callbacks.get(obj).has(key)) {
+                    callbacks.get(obj).set(key, []);
+                }
+
+                callbacks.get(obj).get(key).push(callback);
+            }
+        }
+        function reactive(obj) {
+            if (reactivities.has(obj)) {
+                return reactivities.get(obj);
+            }
+
+            const proxy = new Proxy(obj, {
+                set(target, prop, value, receiver) {
+                    // 先设置,后缓存执行callback
+                    const setResult = Reflect.set(target, prop, value, receiver);
+                    // 这里执行的是某一个对象的某一个key的callback
+                    if (callbacks.get(target) && callbacks.get(target).get(prop)) {
+                        for (let callback of callbacks.get(target).get(prop)) {
+                            callback();
+                        }
+                    }
+                    return setResult;
+                },
+                get(target, prop, receiver) {
+                    // 注册
+                    useReactivities.push([target, prop]);
+                    if (typeof target[prop] === 'object') {
+                        return reactive(target[prop]);
+                    }
+                    return Reflect.get(target, prop, receiver);
+                },
+            });
+
+            reactivities.set(obj, proxy);
+            return proxy;
+        }
+
+        /* ********* 用一用 ********** */
+        const container = document.getElementById('container');
+        const r = document.getElementById('r');
+        const g = document.getElementById('g');
+        const b = document.getElementById('b');
+
+        const proxy = reactive({ r: 0, g: 0, b: 0 });
+        effect(() => {
+            r.value = proxy.r;
+            g.value = proxy.g;
+            b.value = proxy.b;
+        });
+
+        effect(() => {
+            container.style.backgroundColor = `rgb(${proxy.r},${proxy.g},${proxy.b})`;
+        });
+
+        r.addEventListener('input', (e) => {
+            proxy.r = e.target.value;
+        });
+        g.addEventListener('input', (e) => {
+            proxy.g = e.target.value;
+        });
+        b.addEventListener('input', (e) => {
+            proxy.b = e.target.value;
+        });
+    </script>
+</html>
