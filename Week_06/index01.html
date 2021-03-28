@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/index.css" />
+        <style></style>
+    </head>
+    <body>
+        <main class="main">
+            <side class="side">
+                重学JavaScript
+            </side>
+            <section class="right-part">
+                <div class="operators"></div>
+                <div id="container" class="container"></div>
+            </section>
+        </main>
+    </body>
+    <script>
+        function utf8_encoding(str) {
+            const code = encodeURIComponent(str);
+            const bytes = [];
+            for (var i = 0; i < code.length; i++) {
+                const c = code.charAt(i);
+                if (c === '%') {
+                    const hex = code.charAt(i + 1) + code.charAt(i + 2);
+                    const hexVal = parseInt(hex, 16);
+                    bytes.push(hexVal);
+                    i += 2;
+                } else {
+                    bytes.push(c.charCodeAt(0));
+                }
+            }
+            return bytes;
+        }
+
+        function utf8_decode(bytes) {
+            let str = '';
+            for (let i = 0; i < bytes.length; i++) {
+                str += `%${bytes[i].toString(16)}`;
+            }
+            return decodeURIComponent(str);
+        }
+
+        class Animal {
+            // state
+            #hurt = null;
+
+            get type() {
+                return null;
+            }
+
+            get hurt() {
+                return this.#hurt;
+            }
+            set hurt(value) {
+                this.#hurt = value;
+                typeof this.#hurtCb === 'function' && this.#hurtCb(this.hurt);
+            }
+
+            // action
+            bite(biteCallback) {
+                typeof biteCallback === 'function' && biteCallback();
+            }
+
+            // show state change
+            #hurtCb = undefined;
+            showHurt(cb) {
+                this.#hurtCb = cb;
+            }
+        }
+
+        class Person extends Animal {
+            get type() {
+                return 'person';
+            }
+        }
+
+        class Dog extends Animal {
+            get type() {
+                return 'dog';
+            }
+        }
+
+        const person = new Person();
+        const dog = new Dog();
+
+        person.showHurt((hurt) => {
+            console.log('人被咬了', hurt);
+        });
+
+        dog.bite(() => {
+            person.hurt = {
+                type: dog.type,
+                msg: '要了一口',
+            };
+        });
+
+        import('./module.js').then((m) => {
+            console.log(m);
+        });
+    </script>
+</html>
