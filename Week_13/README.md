@@ -114,4 +114,40 @@
 #### getComputedStyle
 - `window.getComputedStyle(el,prop)`
 
+### CSSOM View
+cssom 是与css语言对应的
+获取render 之后的样式信息
+#### window
+- **window.innerHeight  window.innerWidth**  html实际的尺寸
+- window.outerWidth  window.outerHeight 浏览器总共的尺寸
+- **window.devicePixelRatio** 物理像素/实际像素
+- window.screen
+  - window.screen.width
+  - window.screen.height
+  - window.availWidth
+  - window.availHeight
+
+#### window API
+- `window.open()`
+- moveTo(x,y)
+- moveBy(x,y)
+- resizeTo(x,y)
+- ..
+
+#### scroll
+- scrollTop
+- scrollLeft
+- scrollWidth
+- scrollHeight
+- scroll(x,y)
+- scrollBy(x,y)
+- scrollIntoView()
+
+#### layout
+- getClientRects()
+- getBoundingClientRect()
+
+
+### 其他API
+全部的api的分类和整理
 
