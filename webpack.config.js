@@ -3,15 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const webpackConfig = {
     mode: 'development',
-    entry: path.resolve(__dirname, `${process.env.WEEK_ENV}/index.js`),
+    entry: path.resolve(__dirname, `${process.env.NODE_ENV}/index.js`),
     output: {
         path: path.resolve(__dirname, 'dist'),
+        filename: '[name].index.js',
+        library: {
+            type: 'umd',
+        },
         clean: true,
     },
+    target: 'web',
     devtool: 'source-map',
-    devServer: {
-        open: true,
-        stats: 'errors-warnings',
+    optimization: {
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}`,
+        },
+        removeEmptyChunks: true,
+        mergeDuplicateChunks: true,
     },
     module: {
         rules: [
@@ -20,15 +28,24 @@ const webpackConfig = {
                 loader: 'babel-loader',
                 options: {
                     presets: ['@babel/preset-env'],
-                    plugins: [['@babel/plugin-transform-react-jsx']],
+                    plugins: [['@babel/plugin-transform-react-jsx', { pragma: 'createElement' }]],
                 },
                 exclude: /node_modules/,
             },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
         ],
+    },
+
+    devServer: {
+        open: true,
+        stats: 'errors-warnings',
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: process.env.WEEK_ENV,
+            title: process.env.NODE_ENV,
         }),
     ],
 };

@@ -1,5 +1,4 @@
 import { createElement, Component } from './framework';
-import './index.css';
 
 const pic = [
     'https://static001.geekbang.org/resource/image/bb/21/bb38fb7c1073eaee1755f81131f11d21.jpg',
@@ -21,10 +20,10 @@ class Carousel extends Component {
 
     render() {
         const root = document.createElement('div');
-        root.classList.add('carousel');
+
         for (let record of this.attributes.src) {
-            const child = document.createElement('div');
-            child.style.backgroundImage = `url(${record})`;
+            const child = document.createElement('img');
+            child.src = record;
             root.appendChild(child);
         }
 
