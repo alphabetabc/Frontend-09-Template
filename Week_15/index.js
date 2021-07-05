@@ -2,7 +2,6 @@ import { createElement } from './framework';
 import Carousel from './carousel';
 
 import './index.css';
-import { Timeline, Animation } from './animation';
 
 import './index.animation.demo';
 

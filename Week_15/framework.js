@@ -7,6 +7,7 @@ function createElement(type, attributes, ...children) {
     }
 
     for (let attr in attributes) {
+        // console.log(attr, element);
         element.setAttribute(attr, attributes[attr]);
     }
 
@@ -26,6 +27,10 @@ class Component {
     // }
 
     setAttribute(name, value) {
+        if (name === 'style') {
+            Object.assign(this.root.style, value);
+            return;
+        }
         this.root.setAttribute(name, value);
     }
 
@@ -50,6 +55,13 @@ class TextWrapper extends Component {
     constructor(content) {
         super();
         this.root = document.createTextNode(content);
+    }
+}
+
+class Fragment extends Component {
+    constructor() {
+        super();
+        this.root = document.createDocumentFragment();
     }
 }
 
@@ -118,4 +130,4 @@ const drag = (target) => {
     return new Drag(target);
 };
 
-export { createElement, Component, drag };
+export { createElement, Component, Fragment, drag };
